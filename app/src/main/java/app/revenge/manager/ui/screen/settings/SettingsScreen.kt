@@ -75,14 +75,12 @@ class SettingsScreen : Screen {
                     destination = ::AdvancedSettings
                 )
 
-                if (preferences.isDeveloper) {
-                    SettingsCategory(
-                        icon = Icons.Outlined.Code,
-                        text = stringResource(R.string.settings_developer),
-                        subtext = stringResource(R.string.settings_developer_description),
-                        destination = ::DeveloperSettings
-                    )
-                }
+                SettingsCategory(
+                    icon = Icons.Outlined.Code,
+                    text = stringResource(R.string.settings_developer),
+                    subtext = stringResource(R.string.settings_developer_description),
+                    destination = ::DeveloperSettings
+                )
 
                 SettingsCategory(
                     icon = Icons.Outlined.Info,
