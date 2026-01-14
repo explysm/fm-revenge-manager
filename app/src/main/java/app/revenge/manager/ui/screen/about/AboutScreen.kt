@@ -193,6 +193,14 @@ class AboutScreen : Screen {
                 ) {
                     ElevatedCard {
                         ListItem(
+                            text = "Palm",
+                            subtext = "Lead developer of Revenge",
+                            imageUrl = "https://github.com/palmdevs.png"
+                            onClick = {
+                                uriHandler.openUri("https://github.com/palmdevs")
+                            }
+                        )
+                        ListItem(
                             text = "Pylix",
                             subtext = "Past developer of Bunny",
                             imageUrl = "https://github.com/pylixonly.png",
