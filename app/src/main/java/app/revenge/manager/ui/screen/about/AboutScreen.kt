@@ -195,7 +195,7 @@ class AboutScreen : Screen {
                         ListItem(
                             text = "Palm",
                             subtext = "Lead developer of Revenge",
-                            imageUrl = "https://github.com/palmdevs.png"
+                            imageUrl = "https://github.com/palmdevs.png",
                             onClick = {
                                 uriHandler.openUri("https://github.com/palmdevs")
                             }
