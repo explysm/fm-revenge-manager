@@ -24,9 +24,9 @@ Fire Manager makes installing and managing FireCord simple. The manager is built
 
 Get newest apk from [release list](https://github.com/explysm/FireManager/releases/) and install it.
 
-Version numbering:
-v*.*.* is a main release
-v*.*.*.* is a general fix release
+Version numbering:<br>
+```v*.*.* is a main release
+v*.*.*.* is a general fix release```
 
 <p><strong>Build from source</strong> — clone and assemble:</p>
 
