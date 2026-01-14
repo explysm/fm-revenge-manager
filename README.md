@@ -1,80 +1,88 @@
-<p align="center">
-  <picture>
-    <source
-      width="512px"
-      media="(prefers-color-scheme: dark)"
-      srcset="assets/wordmark/wordmark+slogan-dark.svg"
-    >
-    <img
-      width="512px"
-      src="assets/wordmark/wordmark+slogan-light.svg"
-    >
-  </picture>
-  <br>
-  <a href="https://revenge-mod.github.io/">
-       <picture>
-           <source height="32px" media="(prefers-color-scheme: dark)" srcset="assets/logo/logo-dark.svg" />
-           <img height="32px" src="assets/logo/logo-light.svg" />
-       </picture>
-   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   <a href="https://discord.com/invite/ddcQf3s2Uq">
-       <picture>
-           <source height="32px" media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/13122796/178032563-d4e084b7-244e-4358-af50-26bde6dd4996.png" />
-           <img height="32px" src="https://user-images.githubusercontent.com/13122796/178032563-d4e084b7-244e-4358-af50-26bde6dd4996.png" />
-       </picture>
-   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   <a href="https://github.com/revenge-mod">
-       <picture>
-           <source height="32px" media="(prefers-color-scheme: dark)" srcset="https://i.ibb.co/dMMmCrW/Git-Hub-Mark.png" />
-           <img height="32px" src="https://i.ibb.co/9wV3HGF/Git-Hub-Mark-Light.png" />
-       </picture>
-   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h1 align="center">Fire Manager</h1>
 
-   </a>
+<p align="center">
+  <a href="https://github.com/explysm/FireManager/releases"><img alt="Releases" src="https://img.shields.io/github/v/release/explysm/FireManager?style=flat-square"></a>
+  <a href="https://github.com/explysm/FireManager/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"></a>
+  <a href="https://github.com/explysm/FireManager/issues"><img alt="Issues" src="https://img.shields.io/github/issues/explysm/FireManager?style=flat-square"></a>
 </p>
 
-# 💊 Revenge Manager
+<p align="center">
+  A fast, friendly, and focused Android mod manager for Discord — rebranded for the FireCord community from Revenge.
+</p>
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/revenge-mod/revenge-manager/release.yml)
-![Open Software License 3](https://img.shields.io/badge/License-OSL%20v3-yellow.svg)
+---
 
-Application to use Revenge on Android.
+## ✨ Why Fire Manager?
 
-## ❓ About
+Fire Manager makes installing and managing FireCord simple. The manager is built from the ground up by the Bunny team, while being forked from Revenge Manager.
 
-Revenge Manager is an application that installs and updates [Revenge](https://github.com/revenge-mod/revenge-bundle),
-a modification for Discord.
+---
 
-## 💪 Features
+## 🚀 Quick Start
 
-Some of the features Revenge Manager provides are:
+<p><strong>Download & run</strong> — get a released APK from Releases and install with:</p>
 
-- 📲 **Install**: Download Discord and install Revenge on it
-- 🔁 **Update**: Update Revenge to the latest version
-- 🔔 **Notifications**: Be notified when a new version of Revenge is available
-- 📃 **Changelog**: See the changelog of Revenge
+Get newest apk from [release list](https://github.com/explysm/FireManager/releases/) and install it.
 
-## 🔽 Download
+<p><strong>Build from source</strong> — clone and assemble:</p>
 
-You can download the most recent version of Revenge Manager from
-[here](https://github.com/revenge-mod/revenge-manager/releases/latest).  
-Learn how to use Revenge Manager by following the [documentation](/docs).
+```ShiggyManager/README.md#L411-418
+git clone https://github.com/explysm/FireManager.git
+cd ShiggyManager
+./gradlew :app:assembleDebug
+```
 
-## 📚 Everything else
+APK output: `app/build/outputs/apk/debug/app-debug.apk`.
 
-### 📙 Contributing
+---
 
-Thank you for considering contributing to Revenge Manager.
-You can find the contribution guidelines [here](CONTRIBUTING.md).
+## 🤝 Contributing
 
-### 🛠️ Building
+We love contributions! Here's how to help:
 
-To build a Revenge Manager, you can follow the [documentation](/docs).
+1. Fork the repository.
+2. Create a branch:
+```FireManager/README.md#L427-430
+git checkout -b feat/my-cool-feature
+```
+3. Make your changes, run tests and build:
+```FireManager/README.md#L431-434
+./gradlew :app:assembleDebug
+```
+4. Open a PR describing:
+   - What you changed
+   - Why it helps
+   - Screenshots if UI changes
 
-### 📃 Documentation
+Please keep PRs focused and document behavior changes.
 
-You can find the documentation of Revenge Manager [here](/docs).
+---
 
-## 📜 Licence
+## 🙌 Code of Conduct
 
-Revenge Manager is licensed under the OSLv3 license. Please see the [license file](LICENSE) for more information.
+Be kind and constructive. Treat everyone with respect. If you want to adopt a formal Code of Conduct, add a `CODE_OF_CONDUCT.md` at the root and link to it here.
+
+---
+
+## 📝 Release Notes & Changelog
+
+We keep a concise changelog in the release notes. Please add meaningful entries for user-facing changes and breaking updates.
+
+---
+
+## 🧾 License
+
+Fire Manager is open source under the OSL License. See `LICENSE` for details.
+
+---
+
+## 💬 Contact & Support
+
+- Repo: https://github.com/explysm/FireManager
+- Issues & feature requests: https://github.com/explysm/FireManager/issues
+
+---
+
+<p align="center">
+  <strong>Made with 🔥 for the FireCord community</strong>
+</p>
