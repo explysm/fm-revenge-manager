@@ -1,4 +1,4 @@
-<h1 align="center">fire Manager</h1>
+<h1 align="center">Fire Manager</h1>
 
 <p align="center">
   <a href="https://github.com/explysm/FireManager/releases"><img alt="Releases" src="https://img.shields.io/github/v/release/explysm/FireManager?style=flat-square"></a>
@@ -12,7 +12,7 @@
 
 ---
 
-## ✨ Why fire Manager?
+## ✨ Why Fire Manager?
 
 fire Manager makes installing and managing FireCord simple. The manager is built from the ground up by Aliucord Team with reliability and UX in mind, and changed to work with new versions by Wintry Team (pylix):
 - Clean, FireCord-branded UI and icons
@@ -57,12 +57,12 @@ You can fully tailor the appearance:
 - Colors: use `colors.xml` to apply a new palette.
 - Glyph sizing: vector drawables support `<group android:scaleX="" android:scaleY="" android:translateX="" android:translateY="">`. To center an element after scaling, compute translation as:
 
-```ShiggyManager/README.md#L419-426
+```FireManager/README.md#L419-426
 translate = (viewportSize - (viewportSize * scale)) / 2
 # Example for viewport 256 and scale 0.7 -> translate = 38.4
 ```
 
-If you see a missing space in the name (e.g., `FireManager`), search for usages of `@string/fire` — that key intentionally contains the compact brand name. Prefer `@string/app_name` for UI labels that expect "Shiggy Manager".
+If you see a missing space in the name (e.g., `ShiggyManager`), search for usages of `@string/shiggy` — that key intentionally contains the compact brand name. Prefer `@string/app_name` for UI labels that expect "Shiggy Manager".
 
 ---
 
