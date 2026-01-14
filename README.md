@@ -26,7 +26,8 @@ Get newest apk from [release list](https://github.com/explysm/FireManager/releas
 
 Version numbering:<br>
 ```v*.*.* is a main release
-v*.*.*.* is a general fix release```
+v*.*.*.* is a general fix release
+```
 
 <p><strong>Build from source</strong> — clone and assemble:</p>
 
