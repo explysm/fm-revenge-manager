@@ -56,6 +56,8 @@ class PreferenceManager(context: Context) :
 
     var savePatchedApk by booleanPreference("save_patched_apk", false)
 
+    var installedInstances by stringSetPreference("installed_instances", setOf(BuildConfig.MODDED_APP_PACKAGE_NAME))
+
     var hasAskedForBatteryOpt by booleanPreference("has_asked_for_battery_opt", false)
 
     init {

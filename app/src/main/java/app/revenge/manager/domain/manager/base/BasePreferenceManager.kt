@@ -15,6 +15,9 @@ abstract class BasePreferenceManager(
     protected fun getString(key: String, defaultValue: String?) =
         prefs.getString(key, defaultValue)!!
 
+    private fun getStringSet(key: String, defaultValue: Set<String>) =
+        prefs.getStringSet(key, defaultValue)!!
+
     private fun getBoolean(key: String, defaultValue: Boolean) = prefs.getBoolean(key, defaultValue)
     private fun getInt(key: String, defaultValue: Int) = prefs.getInt(key, defaultValue)
     private fun getFloat(key: String, defaultValue: Float) = prefs.getFloat(key, defaultValue)
@@ -30,6 +33,7 @@ abstract class BasePreferenceManager(
         enumValueOf<E>(getString(key, defaultValue.name))
 
     protected fun putString(key: String, value: String?) = prefs.edit { putString(key, value) }
+    protected fun putStringSet(key: String, value: Set<String>) = prefs.edit { putStringSet(key, value) }
     private fun putBoolean(key: String, value: Boolean) = prefs.edit { putBoolean(key, value) }
     private fun putInt(key: String, value: Int) = prefs.edit { putInt(key, value) }
     private fun putFloat(key: String, value: Float) = prefs.edit { putFloat(key, value) }
@@ -67,6 +71,16 @@ abstract class BasePreferenceManager(
         defaultValue = defaultValue,
         getter = ::getString,
         setter = ::putString
+    )
+
+    protected fun stringSetPreference(
+        key: String,
+        defaultValue: Set<String> = emptySet()
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getStringSet,
+        setter = ::putStringSet
     )
 
     protected fun booleanPreference(

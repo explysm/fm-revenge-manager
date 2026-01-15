@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,6 +51,7 @@ import app.revenge.manager.ui.screen.settings.SettingsScreen
 import app.revenge.manager.ui.viewmodel.home.HomeViewModel
 import app.revenge.manager.ui.widgets.AppIcon
 import app.revenge.manager.ui.widgets.dialog.BatteryOptimizationDialog
+import app.revenge.manager.ui.widgets.dialog.InstallOptionsDialog
 import app.revenge.manager.ui.widgets.dialog.StoragePermissionsDialog
 import app.revenge.manager.ui.widgets.home.CommitList
 import app.revenge.manager.ui.widgets.updater.UpdateDialog
@@ -83,6 +88,25 @@ class HomeScreen : Screen {
 
         StoragePermissionsDialog()
         BatteryOptimizationDialog()
+
+        var showInstallOptions by remember { mutableStateOf(false) }
+
+        if (showInstallOptions) {
+            InstallOptionsDialog(
+                versions = viewModel.discordVersions ?: emptyMap(),
+                defaultVersion = latestVersion ?: Constants.DUMMY_VERSION,
+                onDismiss = { showInstallOptions = false },
+                onConfirm = { pkg, name, ver ->
+                    showInstallOptions = false
+                    prefs.packageName = pkg
+                    prefs.appName = name
+                    prefs.discordVersion = ver.toVersionCode()
+                    prefs.installedInstances = prefs.installedInstances + pkg
+                    viewModel.installManager.getInstalled()
+                    navigator.navigate(InstallerScreen(ver))
+                }
+            )
+        }
 
         if (
             viewModel.showUpdateDialog &&
@@ -126,6 +150,44 @@ class HomeScreen : Screen {
                     style = MaterialTheme.typography.titleLarge
                 )
 
+                if (prefs.installedInstances.size > 1) {
+                    val context = LocalContext.current
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        items(prefs.installedInstances.toList()) { pkg ->
+                            val isSelected = prefs.packageName == pkg
+                            val label = remember(pkg) {
+                                try {
+                                    context.packageManager.getApplicationLabel(
+                                        context.packageManager.getApplicationInfo(pkg, 0)
+                                    ).toString()
+                                } catch (e: Exception) {
+                                    pkg.split(".").last()
+                                }
+                            }
+
+                            ElevatedCard(
+                                onClick = {
+                                    prefs.packageName = pkg
+                                    prefs.appName = label
+                                    viewModel.installManager.getInstalled()
+                                },
+                                colors = if (isSelected) CardDefaults.elevatedCardColors(
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                                ) else CardDefaults.elevatedCardColors()
+                            ) {
+                                Text(
+                                    text = label,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
+                        }
+                    }
+                }
+
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
@@ -157,7 +219,7 @@ class HomeScreen : Screen {
 
                 Button(
                     onClick = {
-                        navigator.navigate(InstallerScreen(latestVersion!!))
+                        showInstallOptions = true
                     },
                     enabled = latestVersion != null && (prefs.allowDowngrade || latestVersion >= (currentVersion ?: Constants.DUMMY_VERSION)),
                     modifier = Modifier.fillMaxWidth()
