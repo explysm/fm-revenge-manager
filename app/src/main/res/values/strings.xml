@@ -142,6 +142,8 @@
     <string name="settings_developer_description">These settings may break things if used improperly</string>
     <string name="settings_module_location">Module location</string>
     <string name="settings_module_location_description">For use with developing the Xposed module. BE CAREFUL</string>
+    <string name="settings_save_patched">Save patched APKs</string>
+    <string name="settings_save_patched_description">Save the patched APKs to your Downloads folder</string>
     <string name="settings_module_location_reset">Reset module location</string>
     <string name="settings_package_name">Package name</string>
     <string name="settings_version">Discord version</string>

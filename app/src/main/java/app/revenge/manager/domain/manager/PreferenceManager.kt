@@ -54,6 +54,8 @@ class PreferenceManager(context: Context) :
 
     var allowDowngrade by booleanPreference("allow_downgrade", false)
 
+    var savePatchedApk by booleanPreference("save_patched_apk", false)
+
     var hasAskedForBatteryOpt by booleanPreference("has_asked_for_battery_opt", false)
 
     init {

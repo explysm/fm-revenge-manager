@@ -1,6 +1,7 @@
 package app.revenge.manager.installer.step.installing
 
 import android.content.Context
+import android.os.Environment
 import app.revenge.manager.R
 import app.revenge.manager.domain.manager.InstallMethod
 import app.revenge.manager.domain.manager.PreferenceManager
@@ -41,6 +42,13 @@ class InstallStep(
         val files = lspatchedDir.listFiles()
             ?.takeIf { it.isNotEmpty() }
             ?: throw Error("Missing APKs from LSPatch step; failure likely")
+
+        if (preferences.savePatchedApk) {
+            val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            files.forEach { file ->
+                file.copyTo(downloadDir.resolve(file.name), overwrite = true)
+            }
+        }
 
         val installMethod = if (preferences.installMethod == InstallMethod.SHIZUKU && !ShizukuPermissions.waitShizukuPermissions()) {
             // Temporarily use DEFAULT if SHIZUKU permissions are not granted

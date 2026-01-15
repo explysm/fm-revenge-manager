@@ -124,6 +124,13 @@ class DeveloperSettings: Screen {
                 )
 
                 SettingsSwitch(
+                    label = stringResource(R.string.settings_save_patched),
+                    secondaryLabel = stringResource(R.string.settings_save_patched_description),
+                    pref = prefs.savePatchedApk,
+                    onPrefChange = { prefs.savePatchedApk = it }
+                )
+
+                SettingsSwitch(
                     label = stringResource(R.string.settings_allow_downgrade),
                     secondaryLabel = stringResource(R.string.settings_allow_downgrade_description),
                     pref = prefs.allowDowngrade,
