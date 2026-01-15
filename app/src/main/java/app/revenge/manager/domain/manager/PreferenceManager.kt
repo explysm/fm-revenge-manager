@@ -60,10 +60,27 @@ class PreferenceManager(context: Context) :
 
     var hasAskedForBatteryOpt by booleanPreference("has_asked_for_battery_opt", false)
 
+    fun getTargetVersion(packageName: String): String =
+        getString("target_version_$packageName", "")
+
+    fun setTargetVersion(packageName: String, version: String) {
+        putString("target_version_$packageName", version)
+    }
+
     init {
         if (mirror !in Mirror.entries) {
             mirror = Mirror.DEFAULT
         }
+
+        val pm = context.packageManager
+        installedInstances = installedInstances.filter { pkg ->
+            try {
+                pm.getPackageInfo(pkg, 0)
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }.toSet()
     }
 }
 

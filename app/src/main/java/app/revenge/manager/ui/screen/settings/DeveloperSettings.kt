@@ -46,19 +46,6 @@ class DeveloperSettings: Screen {
         val installManager: InstallManager = get()
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-        var version by remember {
-            mutableStateOf(prefs.discordVersion)
-        }
-        var versionError by remember {
-            mutableStateOf(false)
-        }
-
-        val supportingText = when {
-            versionError -> stringResource(R.string.msg_invalid_version)
-            version.isNotBlank() -> DiscordVersion.fromVersionCode(version).toString()
-            else -> null
-        }
-
         var moduleLocation by remember {
             mutableStateOf(prefs.moduleLocation.absolutePath)
         }
@@ -80,22 +67,6 @@ class DeveloperSettings: Screen {
                     onPrefChange = {
                         prefs.packageName = it
                         installManager.getInstalled()
-                    }
-                )
-
-                SettingsTextField(
-                    label = stringResource(R.string.settings_version),
-                    pref = version,
-                    error = versionError,
-                    supportingText = supportingText,
-                    onPrefChange = {
-                        version = it
-                        if (DiscordVersion.fromVersionCode(it) == null && it.isNotBlank()) {
-                            versionError = true
-                        } else {
-                            versionError = false
-                            prefs.discordVersion = it
-                        }
                     }
                 )
 

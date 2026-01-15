@@ -72,12 +72,12 @@ class HomeScreen : Screen {
         val prefs: PreferenceManager = get()
         val viewModel: HomeViewModel = getScreenModel()
 
-        val currentVersion = remember {
+        val currentVersion = remember(viewModel.installManager.current) {
             DiscordVersion.fromVersionCode(viewModel.installManager.current?.versionCode.toString())
         }
 
         val latestVersion =
-            remember(prefs.discordVersion, viewModel.discordVersions, prefs.channel) {
+            remember(prefs.packageName, prefs.discordVersion, viewModel.discordVersions, prefs.channel) {
                 when {
                     prefs.discordVersion.isBlank() -> viewModel.discordVersions?.get(prefs.channel)
                     else -> DiscordVersion.fromVersionCode(prefs.discordVersion)
@@ -100,7 +100,9 @@ class HomeScreen : Screen {
                     showInstallOptions = false
                     prefs.packageName = pkg
                     prefs.appName = name
-                    prefs.discordVersion = ver.toVersionCode()
+                    val verCode = ver.toVersionCode()
+                    prefs.discordVersion = verCode
+                    prefs.setTargetVersion(pkg, verCode)
                     prefs.installedInstances = prefs.installedInstances + pkg
                     viewModel.installManager.getInstalled()
                     navigator.navigate(InstallerScreen(ver))
@@ -172,6 +174,7 @@ class HomeScreen : Screen {
                                 onClick = {
                                     prefs.packageName = pkg
                                     prefs.appName = label
+                                    prefs.discordVersion = prefs.getTargetVersion(pkg)
                                     viewModel.installManager.getInstalled()
                                 },
                                 colors = if (isSelected) CardDefaults.elevatedCardColors(
