@@ -68,6 +68,15 @@ class CustomizationSettings: Screen {
                     }
                 )
 
+                SettingsSwitch(
+                    label = stringResource(R.string.settings_experimental_ui),
+                    secondaryLabel = stringResource(R.string.settings_experimental_ui_description),
+                    pref = prefs.experimentalUi,
+                    onPrefChange = {
+                        prefs.experimentalUi = it
+                    }
+                )
+
                 SettingsItemChoice(
                     label = stringResource(R.string.settings_channel),
                     pref = prefs.channel,

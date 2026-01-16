@@ -131,6 +131,8 @@
     <string name="settings_app_name">App name</string>
     <string name="settings_app_icon">Replace app icon</string>
     <string name="settings_app_icon_description">Uses the FireCord icon instead of Discord\'s</string>
+    <string name="settings_experimental_ui">Experimental UI</string>
+    <string name="settings_experimental_ui_description">Removes the header background and uses floating pills for a cleaner look</string>
 
     <string name="settings_advanced">Advanced</string>
     <string name="settings_advanced_description">Modify downloading and installation</string>
