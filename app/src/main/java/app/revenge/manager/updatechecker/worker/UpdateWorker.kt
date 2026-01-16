@@ -24,30 +24,7 @@ class UpdateWorker(
     val installManager: InstallManager by inject()
 
     override suspend fun doWork(): Result {
-        if (prefs.discordVersion.isNotBlank()) return Result.success()
-        return when (val res = api.getLatestDiscordVersions()) {
-            is ApiResponse.Success -> {
-                val currentVersion =
-                    DiscordVersion.fromVersionCode(installManager.current?.versionCode.toString())
-                val latestVersion = res.data[DiscordVersion.Type.STABLE]
-
-                if (latestVersion == null || currentVersion == null) return Result.failure()
-
-                if (latestVersion > currentVersion) {
-                    context.sendBroadcast(
-                        Intent(
-                            context,
-                            UpdateBroadcastReceiver::class.java
-                        ).apply {
-                            putExtra(Intents.Extras.VERSION, latestVersion.toVersionCode())
-                        })
-                }
-
-                Result.success()
-            }
-
-            else -> Result.failure()
-        }
+        return Result.success()
     }
 
 }

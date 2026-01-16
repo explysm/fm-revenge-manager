@@ -29,6 +29,12 @@ class PreferenceManager(private val context: Context) :
 
     var mirror by enumPreference("mirror", Mirror.DEFAULT)
 
+    var githubApiUrl by stringPreference("github_api_url", "https://api.github.com")
+
+    var bypassIspBlocks by booleanPreference("bypass_isp_blocks", false)
+
+    var proxyUrl by stringPreference("proxy_url", "https://fire-gh-proxy.pages.dev/gh-api")
+
     var monet by booleanPreference("monet", false)
 
     var isDeveloper by booleanPreference("is_developer", false)

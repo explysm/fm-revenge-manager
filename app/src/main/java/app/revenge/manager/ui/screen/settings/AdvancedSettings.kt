@@ -57,18 +57,6 @@ class AdvancedSettings: Screen {
                     .padding(bottom = DimenUtils.navBarPadding)
             ) {
                 SettingsItemChoice(
-                    label = stringResource(R.string.settings_check_updates),
-                    pref = prefs.updateDuration,
-                    labelFactory = {
-                        ctx.getString(it.labelRes)
-                    },
-                    onPrefChange = {
-                        prefs.updateDuration = it
-                        viewModel.updateCheckerDuration(it)
-                    }
-                )
-
-                SettingsItemChoice(
                     label = stringResource(R.string.settings_mirror),
                     pref = prefs.mirror,
                     labelFactory = {

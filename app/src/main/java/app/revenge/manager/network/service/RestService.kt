@@ -14,9 +14,12 @@ class RestService(
     private val prefs: PreferenceManager
 ) {
 
+    private val githubBaseUrl: String
+        get() = if (prefs.bypassIspBlocks) prefs.proxyUrl else prefs.githubApiUrl
+
     suspend fun getLatestRelease(repo: String) = withContext(Dispatchers.IO) {
         httpService.request<Release> {
-            url("https://api.github.com/repos/$repo/releases/latest")
+            url("$githubBaseUrl/repos/$repo/releases/latest")
         }
     }
 
@@ -28,7 +31,7 @@ class RestService(
 
     suspend fun getCommits(repo: String, page: Int = 1) = withContext(Dispatchers.IO) {
         httpService.request<List<Commit>> {
-            url("https://api.github.com/repos/$repo/commits")
+            url("$githubBaseUrl/repos/$repo/commits")
             parameter("page", page)
         }
     }

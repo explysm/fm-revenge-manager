@@ -70,6 +70,21 @@ class DeveloperSettings: Screen {
                 )
 
                 SettingsSwitch(
+                    label = "Bypass ISP Blocks",
+                    secondaryLabel = "Redirects GitHub requests through a proxy server.",
+                    pref = prefs.bypassIspBlocks,
+                    onPrefChange = { prefs.bypassIspBlocks = it }
+                )
+
+                if (prefs.bypassIspBlocks) {
+                    SettingsTextField(
+                        label = "Proxy URL",
+                        pref = prefs.proxyUrl,
+                        onPrefChange = { prefs.proxyUrl = it }
+                    )
+                }
+
+                SettingsSwitch(
                     label = stringResource(R.string.settings_debuggable),
                     secondaryLabel = stringResource(R.string.settings_debuggable_description),
                     pref = prefs.debuggable,

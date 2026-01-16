@@ -68,8 +68,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".updatechecker.reciever.UpdateBroadcastReceiver" android:exported="false"/>
-
         <provider
                 android:name="rikka.shizuku.ShizukuProvider"
                 android:authorities="${applicationId}.shizuku"
