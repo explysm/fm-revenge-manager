@@ -348,6 +348,7 @@ class HomeScreen : Screen {
     @Composable
     @OptIn(ExperimentalMaterial3Api::class)
     private fun TitleBar() {
+        val navigator = LocalNavigator.currentOrThrow
         val prefs: PreferenceManager = get()
         val viewModel: HomeViewModel = getScreenModel()
         var expanded by remember { mutableStateOf(false) }
