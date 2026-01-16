@@ -11,7 +11,7 @@ import app.revenge.manager.utils.DiscordVersion
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-class PreferenceManager(context: Context) :
+class PreferenceManager(private val context: Context) :
     BasePreferenceManager(context.getSharedPreferences("prefs", Context.MODE_PRIVATE)) {
 
     val DEFAULT_MODULE_LOCATION =
