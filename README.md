@@ -1,8 +1,5 @@
 <h1 align="center">Fire Manager</h1>
 
-# BIG RED NOTE:
-
-This project is 100% vibecoded by gemini while i learn TypeScript and React Native.
 
 Once i learn enough to be able to understand the codebase better, i will purge FireCord & remake it. 
 
