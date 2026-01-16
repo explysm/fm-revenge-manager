@@ -66,6 +66,13 @@ class PreferenceManager(private val context: Context) :
         putString("target_version_$packageName", version)
     }
 
+    fun getInstanceName(packageName: String): String =
+        getString("instance_name_$packageName", "")
+
+    fun setInstanceName(packageName: String, name: String) {
+        putString("instance_name_$packageName", name)
+    }
+
     init {
         if (mirror !in Mirror.entries) {
             mirror = Mirror.DEFAULT

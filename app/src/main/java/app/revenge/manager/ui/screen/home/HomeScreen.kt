@@ -129,6 +129,7 @@ class HomeScreen : Screen {
                 onConfirm = { pkg, name, ver ->
                     showInstallOptions = false
                     prefs.packageName = pkg
+                    prefs.setInstanceName(pkg, name)
                     prefs.installedInstances = prefs.installedInstances + pkg
                     val verCode = ver.toVersionCode()
                     prefs.discordVersion = verCode
@@ -412,6 +413,9 @@ class HomeScreen : Screen {
         var pillSize by remember { mutableStateOf(IntSize.Zero) }
 
         val currentLabel = remember(prefs.packageName, prefs.installedInstances) {
+            val storedName = prefs.getInstanceName(prefs.packageName)
+            if (storedName.isNotBlank()) return@remember storedName
+
             try {
                 context.packageManager.getApplicationLabel(
                     context.packageManager.getApplicationInfo(prefs.packageName, 0)
@@ -469,12 +473,16 @@ class HomeScreen : Screen {
             ) {
                 prefs.installedInstances.toList().sorted().forEach { pkg ->
                     val label = remember(pkg) {
+                        val storedName = prefs.getInstanceName(pkg)
+                        if (storedName.isNotBlank()) return@remember storedName
+
                         try {
                             context.packageManager.getApplicationLabel(
                                 context.packageManager.getApplicationInfo(pkg, 0)
                             ).toString()
                         } catch (e: Exception) {
-                            pkg.split(".").last()
+                            if (pkg == BuildConfig.MODDED_APP_PACKAGE_NAME) BuildConfig.MOD_NAME
+                            else pkg.split(".").last().replaceFirstChar { it.uppercase() }
                         }
                     }
                     DropdownMenuItem(

@@ -39,10 +39,11 @@ class PatchManifestsStep : Step() {
             ZipWriter(apk, true).use { zip ->
                 runner.logger.i("Changing package and app name in ${apk.name}")
                 val patchedManifestBytes = if (apk == baseApk) {
+                    val customName = preferences.getInstanceName(preferences.packageName).ifBlank { app.revenge.manager.BuildConfig.MOD_NAME }
                     ManifestPatcher.patchManifest(
                         manifestBytes = manifest,
                         packageName = preferences.packageName,
-                        appName = app.revenge.manager.BuildConfig.MOD_NAME,
+                        appName = customName,
                         debuggable = preferences.debuggable,
                     )
                 } else {
