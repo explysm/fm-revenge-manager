@@ -1,8 +1,7 @@
 package app.revenge.manager.ui.screen.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,6 +73,8 @@ import app.revenge.manager.utils.Constants
 import app.revenge.manager.utils.DiscordVersion
 import app.revenge.manager.utils.glow
 import app.revenge.manager.utils.navigate
+import com.kyant.backdrop.liquid
+import com.kyant.backdrop.liquifiable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -99,6 +100,8 @@ class HomeScreen : Screen {
                     else -> DiscordVersion.fromVersionCode(prefs.discordVersion)
                 }
             }
+
+        var changelogExpanded by remember { mutableStateOf(false) }
 
         // == Dialogs == //
 
@@ -149,7 +152,7 @@ class HomeScreen : Screen {
             topBar = { TitleBar() },
             containerColor = MaterialTheme.colorScheme.background
         ) { pv ->
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.fillMaxSize().liquifiable()) {
                 // Fiery Background Gradient
                 Box(
                     modifier = Modifier
@@ -201,7 +204,17 @@ class HomeScreen : Screen {
                         )
                     }
 
-                    if (prefs.installedInstances.size > 1) {
+                    if (prefs.installedInstances.isNotEmpty()) {
+                        item {
+                            Text(
+                                text = "Managed Instances",
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Start
+                            )
+                        }
                         item {
                             val context = LocalContext.current
                             LazyRow(
@@ -344,22 +357,40 @@ class HomeScreen : Screen {
                     }
 
                     item {
-                        Text(
-                            text = "Changelog",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 8.dp),
-                            textAlign = TextAlign.Start
-                        )
+                                .padding(top = 8.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable { changelogExpanded = !changelogExpanded }
+                                .padding(vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "Changelog",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = if (changelogExpanded) "Collapse" else "View All",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
 
                     item {
+                        val changelogHeight by animateDpAsState(
+                            targetValue = if (changelogExpanded) 450.dp else 120.dp,
+                            label = "ChangelogExpansion"
+                        )
+                        
                         ElevatedCard(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(400.dp),
+                                .height(changelogHeight),
                             shape = RoundedCornerShape(24.dp),
                             colors = CardDefaults.elevatedCardColors(
                                 containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
@@ -392,16 +423,9 @@ class HomeScreen : Screen {
             },
             actions = { Actions() },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
+                containerColor = Color.Transparent
             ),
-            modifier = Modifier.background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
-                    )
-                )
-            )
+            modifier = Modifier.liquid()
         )
     }
 
