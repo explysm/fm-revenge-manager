@@ -12,9 +12,15 @@ inline fun <T : Any> LazyListScope.itemsIndexed(
 ) {
     items(
         count = items.itemCount,
-        key = { i -> key?.invoke(i, items[i]!!) ?: Unit },
+        key = { i -> 
+            val item = items[i]
+            if (item != null) key?.invoke(i, item) ?: i else i
+        },
         contentType = items.itemContentType()
-    ) {
-        itemContent(it, items[it]!!)
+    ) { i ->
+        val item = items[i]
+        if (item != null) {
+            itemContent(i, item)
+        }
     }
 }

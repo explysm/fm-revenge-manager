@@ -66,8 +66,8 @@
     <string name="action_confirm">Confirm</string>
     <string name="action_start_update">Start update</string>
     <string name="action_install">Install</string>
-    <string name="action_update">Update</string>
-    <string name="action_reinstall">Add new / Reinstall</string>
+    <string name="action_update">Add New / Update</string>
+    <string name="action_reinstall">Add New / Reinstall</string>
     <string name="action_launch">Launch</string>
     <string name="action_uninstall">Uninstall</string>
     <string name="action_info">Info</string>

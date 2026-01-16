@@ -268,7 +268,7 @@ class HomeScreen : Screen {
                             }
 
                             Text(
-                                text = stringResource(label).uppercase(),
+                                text = stringResource(label),
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.ExtraBold,
                                 maxLines = 1,
