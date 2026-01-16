@@ -107,7 +107,7 @@ class HomeScreen : Screen {
         }
 
         val latestVersion =
-            remember(prefs.packageName, prefs.discordVersion, viewModel.discordVersions) {
+            remember(prefs.packageName, viewModel.discordVersions) {
                 when {
                     prefs.discordVersion.isBlank() -> viewModel.discordVersions?.get(DiscordVersion.Type.STABLE)
                     else -> DiscordVersion.fromVersionCode(prefs.discordVersion)
@@ -205,7 +205,7 @@ class HomeScreen : Screen {
                     }
 
                     item {
-                        InstanceSelector(isExperimental = false, isTitleBar = false)
+                        InstanceSelector(isExperimental = prefs.experimentalUi, isTitleBar = false)
                     }
 
                     item {
@@ -348,39 +348,38 @@ class HomeScreen : Screen {
 
         CenterAlignedTopAppBar(
             title = { 
-                Text(
-                    text = stringResource(R.string.app_name),
-                    fontWeight = FontWeight.Black,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                InstanceSelector(isExperimental = prefs.experimentalUi, isTitleBar = true)
             },
             actions = {
-                val p: PreferenceManager = get()
-                Row(
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .clip(CircleShape)
-                        .frosted()
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp).copy(alpha = if (p.frostedGlass) 0.4f else 1f))
-                        .padding(horizontal = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = { viewModel.getDiscordVersions() }, modifier = Modifier.size(40.dp)) {
-                        Icon(
-                            imageVector = Icons.Filled.Refresh,
-                            contentDescription = stringResource(R.string.action_reload),
-                            tint = FireOrange,
-                            modifier = Modifier.size(20.dp)
-                        )
+                if (prefs.experimentalUi) {
+                    val p: PreferenceManager = get()
+                    Row(
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .clip(CircleShape)
+                            .frosted()
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp).copy(alpha = if (p.frostedGlass) 0.4f else 1f))
+                            .padding(horizontal = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = { viewModel.getDiscordVersions() }, modifier = Modifier.size(40.dp)) {
+                            Icon(
+                                imageVector = Icons.Filled.Refresh,
+                                contentDescription = stringResource(R.string.action_reload),
+                                tint = FireOrange,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                        IconButton(onClick = { navigator.navigate(SettingsScreen()) }, modifier = Modifier.size(40.dp)) {
+                            Icon(
+                                imageVector = Icons.Outlined.Settings,
+                                contentDescription = stringResource(R.string.action_open_about),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
-                    IconButton(onClick = { navigator.navigate(SettingsScreen()) }, modifier = Modifier.size(40.dp)) {
-                        Icon(
-                            imageVector = Icons.Outlined.Settings,
-                            contentDescription = stringResource(R.string.action_open_about),
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
+                } else {
+                    Actions()
                 }
             },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -416,46 +415,40 @@ class HomeScreen : Screen {
             }
         }
 
+        val text = if (isTitleBar) stringResource(R.string.app_name) else currentLabel
+
         Box(modifier = Modifier.wrapContentSize(Alignment.Center)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .onSizeChanged { pillSize = it }
                     .then(
-                        if (isExperimental) {
+                        if (isExperimental || isTitleBar) {
                             Modifier
                                 .clip(CircleShape)
                                 .frosted()
                                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp).copy(alpha = if (prefs.frostedGlass) 0.4f else 1f))
                                 .clickable { expanded = true }
                                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                        } else if (isTitleBar) {
-                            Modifier
-                                .clip(RoundedCornerShape(12.dp))
-                                .clickable { expanded = true }
-                                .padding(horizontal = 12.dp, vertical = 4.dp)
                         } else {
                             Modifier.clickable { expanded = true }
                         }
                     )
             ) {
                 Text(
-                    text = currentLabel,
-                    fontWeight = if (isExperimental) FontWeight.Bold else if (isTitleBar) FontWeight.Black else FontWeight.Bold,
-                    letterSpacing = if (isExperimental) 0.sp else if (isTitleBar) (-1).sp else 1.sp,
-                    style = if (isExperimental) MaterialTheme.typography.titleMedium 
-                            else if (isTitleBar) MaterialTheme.typography.titleLarge 
+                    text = text,
+                    fontWeight = if (isExperimental || isTitleBar) FontWeight.Bold else FontWeight.Bold,
+                    letterSpacing = if (isExperimental || isTitleBar) 0.sp else 1.sp,
+                    style = if (isExperimental || isTitleBar) MaterialTheme.typography.titleMedium 
                             else MaterialTheme.typography.headlineMedium,
                     color = if (isTitleBar) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.primary
                 )
-                if (isExperimental || isTitleBar) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowDropDown,
-                        contentDescription = null,
-                        tint = FireOrange,
-                        modifier = Modifier.size(if (isExperimental) 20.dp else 24.dp)
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Filled.ArrowDropDown,
+                    contentDescription = null,
+                    tint = FireOrange,
+                    modifier = Modifier.size(if (isExperimental || isTitleBar) 20.dp else 24.dp)
+                )
             }
 
             DropdownMenu(
@@ -463,7 +456,7 @@ class HomeScreen : Screen {
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
                     .then(
-                        if (isExperimental) {
+                        if (isExperimental || isTitleBar) {
                             Modifier
                                 .width(with(density) { pillSize.width.toDp() })
                                 .clip(RoundedCornerShape(24.dp))

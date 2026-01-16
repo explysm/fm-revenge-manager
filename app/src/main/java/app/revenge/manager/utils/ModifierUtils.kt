@@ -2,7 +2,6 @@ package app.revenge.manager.utils
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -53,18 +52,13 @@ inline fun Modifier.thenIf(predicate: Boolean, block: Modifier.() -> Modifier): 
     if (predicate) then(Modifier.Companion.block()) else this
 
 fun Modifier.frosted(
-    radius: Dp = 16.dp,
     alpha: Float = 0.3f
 ) = composed {
     val prefs: PreferenceManager = get()
     if (prefs.frostedGlass) {
-        this.then(
-            Modifier
-                .blur(radius)
-                .drawBehind {
-                    drawRect(Color.White.copy(alpha = alpha))
-                }
-        )
+        this.drawBehind {
+            drawRect(Color.White.copy(alpha = alpha))
+        }
     } else {
         this
     }
