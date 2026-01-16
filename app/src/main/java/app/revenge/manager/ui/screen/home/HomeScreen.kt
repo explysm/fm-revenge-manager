@@ -119,8 +119,6 @@ class HomeScreen : Screen {
                     val verCode = ver.toVersionCode()
                     prefs.discordVersion = verCode
                     prefs.setTargetVersion(pkg, verCode)
-                    prefs.installedInstances = prefs.installedInstances + pkg
-                    prefs.syncInstancesToFile()
                     viewModel.installManager.getInstalled()
                     navigator.navigate(InstallerScreen(ver))
                 }
@@ -170,12 +168,14 @@ class HomeScreen : Screen {
 
                 LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .padding(pv)
-                        .fillMaxSize(),
-                    contentPadding = Arrangement.spacedBy(16.dp).let { 
-                        androidx.compose.foundation.layout.PaddingValues(16.dp) 
-                    }
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                        top = pv.calculateTopPadding() + 16.dp,
+                        bottom = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item {
                         Spacer(modifier = Modifier.height(24.dp))
@@ -392,7 +392,15 @@ class HomeScreen : Screen {
             },
             actions = { Actions() },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.Transparent
+                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
+            ),
+            modifier = Modifier.background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
+                        MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
+                    )
+                )
             )
         )
     }

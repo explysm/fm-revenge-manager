@@ -19,11 +19,25 @@ class InstallReceiver : BroadcastReceiver(), KoinComponent {
         val action = intent?.action
         val packageName = intent?.data?.schemeSpecificPart
 
-        if (action == Intent.ACTION_PACKAGE_REMOVED && !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
-            packageName?.let {
-                if (prefs.installedInstances.contains(it)) {
-                    prefs.installedInstances = prefs.installedInstances - it
-                    prefs.syncInstancesToFile()
+        when (action) {
+            Intent.ACTION_PACKAGE_ADDED -> {
+                packageName?.let {
+                    // Only register if it's the package we intended to install or already known
+                    // Or simply if it's a FireCord-like package
+                    if (it == prefs.packageName || it.startsWith("app.fire.cord") || it.startsWith("dev.fire.cord")) {
+                        prefs.installedInstances = prefs.installedInstances + it
+                        prefs.syncInstancesToFile()
+                    }
+                }
+            }
+            Intent.ACTION_PACKAGE_REMOVED -> {
+                if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
+                    packageName?.let {
+                        if (prefs.installedInstances.contains(it)) {
+                            prefs.installedInstances = prefs.installedInstances - it
+                            prefs.syncInstancesToFile()
+                        }
+                    }
                 }
             }
         }
