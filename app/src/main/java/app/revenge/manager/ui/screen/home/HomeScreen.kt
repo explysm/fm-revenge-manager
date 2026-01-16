@@ -205,7 +205,7 @@ class HomeScreen : Screen {
                     }
 
                     item {
-                        InstanceSelector(isExperimental = prefs.experimentalUi, isTitleBar = false)
+                        InstanceSelector(isExperimental = false, isTitleBar = false)
                     }
 
                     item {
@@ -348,14 +348,7 @@ class HomeScreen : Screen {
 
         if (prefs.experimentalUi) {
             CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        fontWeight = FontWeight.Black,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                },
+                title = { InstanceSelector(isExperimental = true, isTitleBar = true) },
                 actions = {
                     Row(
                         modifier = Modifier
@@ -423,13 +416,16 @@ class HomeScreen : Screen {
                         if (isExperimental) {
                             Modifier
                                 .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp))
                                 .clickable { expanded = true }
                                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                        } else {
+                        } else if (isTitleBar) {
                             Modifier
                                 .clip(RoundedCornerShape(12.dp))
                                 .clickable { expanded = true }
                                 .padding(horizontal = 12.dp, vertical = 4.dp)
+                        } else {
+                            Modifier.clickable { expanded = true }
                         }
                     )
             ) {
@@ -442,12 +438,14 @@ class HomeScreen : Screen {
                             else MaterialTheme.typography.headlineMedium,
                     color = if (isTitleBar) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.primary
                 )
-                Icon(
-                    imageVector = Icons.Filled.ArrowDropDown,
-                    contentDescription = null,
-                    tint = FireOrange,
-                    modifier = Modifier.size(if (isExperimental) 20.dp else 24.dp)
-                )
+                if (isExperimental || isTitleBar) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowDropDown,
+                        contentDescription = null,
+                        tint = FireOrange,
+                        modifier = Modifier.size(if (isExperimental) 20.dp else 24.dp)
+                    )
+                }
             }
 
             DropdownMenu(
