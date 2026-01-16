@@ -47,6 +47,16 @@ APK output: `app/build/outputs/apk/debug/app-debug.apk`.
 
 ---
 
+## Features
+
+Clean and modern Ui rebranded to match FireCord
+
+Multiple instance support
+
+Githuh proxy to bypass ISP or WIFI restrictions if its throttled/restricted
+
+And overall just a beautiful manager for managing FireCord
+
 ## 🤝 Contributing
 
 We love contributions! Here's how to help:
