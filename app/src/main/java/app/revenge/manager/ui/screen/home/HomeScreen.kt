@@ -178,6 +178,10 @@ class HomeScreen : Screen {
                     }
                 ) {
                     item {
+                        Spacer(modifier = Modifier.height(24.dp))
+                    }
+
+                    item {
                         AppIcon(
                             customIcon = prefs.patchIcon,
                             releaseChannel = prefs.channel,
@@ -315,6 +319,7 @@ class HomeScreen : Screen {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                                 modifier = Modifier
+                                    .padding(top = 12.dp)
                                     .clip(RoundedCornerShape(20.dp))
                                     .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                                     .padding(4.dp)
