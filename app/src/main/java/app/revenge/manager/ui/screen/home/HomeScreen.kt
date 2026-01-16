@@ -104,6 +104,7 @@ class HomeScreen : Screen {
                     prefs.discordVersion = verCode
                     prefs.setTargetVersion(pkg, verCode)
                     prefs.installedInstances = prefs.installedInstances + pkg
+                    prefs.syncInstancesToFile()
                     viewModel.installManager.getInstalled()
                     navigator.navigate(InstallerScreen(ver))
                 }

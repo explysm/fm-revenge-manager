@@ -67,6 +67,46 @@ class PreferenceManager(context: Context) :
         putString("target_version_$packageName", version)
     }
 
+    fun syncInstancesToFile() {
+        try {
+            val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val configDir = downloadDir.resolve("FireCord")
+            configDir.mkdirs()
+            val configFile = configDir.resolve("config")
+            configFile.writeText(installedInstances.joinToString("\n"))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun readInstancesFromFile() {
+        try {
+            val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val configFile = downloadDir.resolve("FireCord/config")
+            if (!configFile.exists()) return
+
+            val lines = configFile.readLines()
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
+
+            val pm = context.packageManager
+            val validInstances = lines.filter { pkg ->
+                try {
+                    pm.getPackageInfo(pkg, 0)
+                    true
+                } catch (e: Exception) {
+                    false
+                }
+            }.toSet()
+
+            if (validInstances.isNotEmpty()) {
+                installedInstances = installedInstances + validInstances
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     init {
         if (mirror !in Mirror.entries) {
             mirror = Mirror.DEFAULT
@@ -81,6 +121,8 @@ class PreferenceManager(context: Context) :
                 false
             }
         }.toSet()
+        
+        syncInstancesToFile()
     }
 }
 

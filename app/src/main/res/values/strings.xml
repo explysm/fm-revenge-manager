@@ -146,6 +146,7 @@
     <string name="settings_save_patched">Save patched APKs</string>
     <string name="settings_save_patched_description">Save the patched APKs to your Downloads folder</string>
     <string name="settings_module_location_reset">Reset module location</string>
+    <string name="settings_read_from_config">Read from config</string>
     <string name="settings_package_name">Package name</string>
     <string name="settings_version">Discord version</string>
     <string name="settings_debuggable">Debuggable</string>

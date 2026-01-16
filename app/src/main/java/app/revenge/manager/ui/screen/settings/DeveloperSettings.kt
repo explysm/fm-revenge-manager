@@ -94,6 +94,13 @@ class DeveloperSettings: Screen {
                     }
                 )
 
+                SettingsButton(
+                    label = stringResource(R.string.settings_read_from_config),
+                    onClick = {
+                        prefs.readInstancesFromFile()
+                    }
+                )
+
                 SettingsSwitch(
                     label = stringResource(R.string.settings_save_patched),
                     secondaryLabel = stringResource(R.string.settings_save_patched_description),

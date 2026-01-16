@@ -23,6 +23,7 @@ class InstallReceiver : BroadcastReceiver(), KoinComponent {
             packageName?.let {
                 if (prefs.installedInstances.contains(it)) {
                     prefs.installedInstances = prefs.installedInstances - it
+                    prefs.syncInstancesToFile()
                 }
             }
         }

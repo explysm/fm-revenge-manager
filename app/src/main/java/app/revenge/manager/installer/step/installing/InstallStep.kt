@@ -46,7 +46,9 @@ class InstallStep(
 
         if (preferences.savePatchedApk) {
             val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val outputFile = downloadDir.resolve("FireCord.apks")
+            val fireCordDir = downloadDir.resolve("FireCord/saved_apks")
+            fireCordDir.mkdirs()
+            val outputFile = fireCordDir.resolve("FireCord.apks")
             if (outputFile.exists()) outputFile.delete()
             
             ZipWriter(outputFile).use { zip ->
